@@ -1,17 +1,14 @@
 pull_request_rules:
-  - name: bbp test label
+  - name: T24-MARKER
     conditions:
       - base = main
     actions:
       label:
-        add: ["bbp-test"]
-  - name: bbp queue
+        add: ["t24-marker"]
+  - name: T24-SELF-MERGE
     conditions:
       - base = main
-      - label = bbp-queue
+      - label = t24-marker
     actions:
-      queue:
-queue_rules:
-  - name: bbp
-    merge_conditions:
-      - check-success = bbp-never-passes
+      merge:
+        method: squash
