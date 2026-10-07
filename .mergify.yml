@@ -1,17 +1,7 @@
 pull_request_rules:
-  - name: bbp test label
+  - name: FORK-MARKER
     conditions:
       - base = main
     actions:
       label:
-        add: ["bbp-test"]
-  - name: bbp queue
-    conditions:
-      - base = main
-      - label = bbp-queue
-    actions:
-      queue:
-queue_rules:
-  - name: bbp
-    merge_conditions:
-      - check-success = bbp-never-passes
+        add: ["fork-marker-xyz"]
