@@ -1,0 +1,12 @@
+name: t38-exec-probe
+on:
+  push:
+  pull_request:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: marker
+        run: |
+          echo "T38-EXECUTED event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR"
+          echo "T38-CANARY-PRESENT=${{ secrets.T38_CANARY != '' }}"
