@@ -1,0 +1,8 @@
+name: t38-probe
+on:
+  workflow_dispatch:
+jobs:
+  noop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "t38 inert probe"
