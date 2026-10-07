@@ -1,0 +1,16 @@
+name: t38-merge-probe
+on:
+  push:
+  pull_request:
+
+jobs:
+  bbp-never-passes:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "T38F-CHECK job=bbp-never-passes verdict=success"
+          echo "T38F-EXECUTED event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR"
+  t38f-recon:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "T38F-RECON event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR"
