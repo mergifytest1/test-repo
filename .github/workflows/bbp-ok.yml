@@ -1,0 +1,9 @@
+name: bbp-ok
+on:
+  pull_request:
+jobs:
+  bbp-ok:
+    runs-on: ubuntu-latest
+    steps:
+      - name: passing
+        run: echo "BBP: check basarili"
