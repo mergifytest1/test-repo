@@ -10,4 +10,4 @@ queue_rules:
   - name: t24q
     checks_timeout: 10 minutes
     merge_conditions:
-      - check-success = t24-gate-base
+      - check-success = t24-gate-head
