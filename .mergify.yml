@@ -15,6 +15,3 @@ queue_rules:
   - name: bbp
     merge_conditions:
       - check-success = bbp-never-passes
-
-merge_protections_settings:
-  auto_merge_conditions: true
