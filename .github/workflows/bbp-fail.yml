@@ -1,0 +1,11 @@
+name: bbp-fail
+on:
+  pull_request:
+jobs:
+  bbp-fail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deliberately failing
+        run: |
+          echo "BBP test: bu check kasitli olarak basarisiz"
+          exit 1
