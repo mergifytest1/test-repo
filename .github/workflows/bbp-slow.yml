@@ -1,0 +1,11 @@
+name: bbp-slow
+on:
+  pull_request:
+jobs:
+  bbp-slow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: slow
+        run: |
+          echo "BBP: bu check 5 dk surer"
+          sleep 300
